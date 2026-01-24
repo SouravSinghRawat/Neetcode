@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_map<int, vector<int>> boxes;
+        unordered_map<int, vector<int>> rows;
+        unordered_map <int, vector<int>> cols;
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int ele = board[i][j];
+
+                    // check in rows
+                    if(!rows[i].empty()){
+                        for(auto it:rows[i]){
+                            if(it==ele) return false;
+                        }
+                        rows[i].push_back(ele);
+                    }else{
+                        rows[i].push_back(ele);
+                    }
+                    
+
+
+                    // check in cols
+                    if(!cols[j].empty()){
+                        for(auto it:cols[j]){
+                            if(it==ele) return false;
+                        }
+                        cols[j].push_back(ele);
+                    }else{
+                        cols[j].push_back(ele);
+                    }
+
+                    // check in boxes
+                    int box = ((i / 3) * 3 + (j / 3));
+
+                    if (!boxes[box].empty()) {
+                        for (auto it : boxes[box]) {
+                            if (it == ele)
+                                return false;
+                        }
+                        boxes[box].push_back(ele);
+                    } else {
+                        boxes[box].push_back(ele);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+
+//checking in boxes = ((i/3)*3 + (j/3)) 
+
+

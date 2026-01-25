@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+
+        for (auto it : s) {
+            if (!st.empty()) {
+                char top = st.top();
+
+                if ((it == ')' && top == '(') || (it == '}' && top == '{') ||
+                    (it == ']' && top == '['))
+                    st.pop();
+                else st.push(it);
+            }else{
+                st.push(it);
+            }
+        }
+            return st.empty();
+        }
+    };

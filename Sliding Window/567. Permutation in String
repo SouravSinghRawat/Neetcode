@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        int m = s1.size(), n = s2.size();
+        if (m > n) return false;
+
+        unordered_map<char,int> mp;
+        for (char c : s1) mp[c]++;
+
+        int count = mp.size();  // how many chars still unmatched
+        int i = 0, j = 0;
+
+        while (j < n) {
+            // expand window
+            if (mp.find(s2[j]) != mp.end()) {
+                mp[s2[j]]--;
+                if (mp[s2[j]] == 0)
+                    count--;
+            }
+            j++;
+
+            // shrink window if size > m
+            while (j - i > m) {
+                if (mp.find(s2[i]) != mp.end()) {
+                    if (mp[s2[i]] == 0)
+                        count++;
+                    mp[s2[i]]++;
+                }
+                i++;
+            }
+
+            // check permutation
+            if (count == 0)
+                return true;
+        }
+        return false;
+    }
+};
+
+//Try to make the window fixed .i.e size equals to s1 size.

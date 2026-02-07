@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==nullptr) return false;
+        ListNode* hare=head;
+        ListNode* tortoise=head;
+
+        while(hare!=NULL && hare->next!=NULL ){
+            tortoise=tortoise->next;
+            hare=hare->next->next;
+            if(tortoise==hare) return true;
+        }
+        return false;
+    }
+};
+
+//tip: while conditions order matters

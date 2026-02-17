@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int cnt = 1;
+    void helper(TreeNode* root, int max) {
+        if (root == nullptr)
+            return;
+
+        if (root->left) {
+            if (root->left->val >= max) {
+                cnt++;
+                helper(root->left, root->left->val);
+            } else
+                helper(root->left, max);
+        }
+        if (root->right) {
+            if (root->right->val >= max) {
+                cnt++;
+                helper(root->right, root->right->val);
+            } else
+                helper(root->right, max);
+        }
+    }
+
+    int goodNodes(TreeNode* root) {
+        helper(root, root->val);
+        return cnt;
+    }
+};
+
+//Tip: Root node is always a good node.

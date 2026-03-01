@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        priority_queue<int> pq;
+        unordered_map<char, int> mp;
+        queue<pair<int, int>> q;
+        for (auto it : tasks) {
+            mp[it]++;
+        }
+        for (auto it : mp) {
+            pq.push(it.second);
+        }
+
+        int intervals = 0;
+        while (!pq.empty() || !q.empty()) {
+            intervals++;
+            if (!pq.empty()) {
+                auto freq = pq.top();
+                pq.pop();
+                freq--;
+                if (freq > 0) {
+                    q.push({freq, intervals + n});
+                }
+            }
+            if (!q.empty() && q.front().second == intervals) {
+                pq.push(q.front().first);
+                q.pop();
+            }
+        }
+        return intervals;
+    }
+};
+
+//Tip: Think in a way that, if any element has appeared, then that can be appeared only after n+1 interval, in between anything can come. So, use the queue for tracking the next elemnt
+// to be scheduled.

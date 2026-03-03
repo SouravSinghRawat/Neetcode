@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int time = 0;
+    vector<int> dx = {-1, 0, 1, 0};
+    vector<int> dy = {0, -1, 0, 1};
+    int orangesRotting(vector<vector<int>>& grid) {
+        int m = grid[0].size();
+        int n = grid.size();
+        queue<pair<int, int>> q;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 2)
+                    q.push({i, j});
+            }
+        }
+
+        while (!q.empty()) {
+            int size = q.size();
+            bool rotted = false;
+            for (int it = 0; it < size; it++) {
+                auto x = q.front().first;
+                auto y = q.front().second;
+                q.pop();
+
+                for (int dir = 0; dir < 4; dir++) {
+                    int xi = x + dx[dir];
+                    int yj = y + dy[dir];
+                    if (xi >= 0 && xi < n && yj >= 0 && yj < m &&
+                        grid[xi][yj] == 1) {
+                        grid[xi][yj] = 2;
+                        q.push({xi, yj});
+                        rotted = true;
+                    }
+                }
+            }
+            if (rotted)
+                time++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 1)
+                    return -1;
+            }
+        }
+        return time;
+    }
+};
+//Tip: increase the time only once per level, not everytime, the loop for queue is running, so, use a variable, to let you know, that in certain level, a orange is rotted, if it has
+// then do time+1, else, no time taken to rott zero oranges.

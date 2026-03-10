@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int ans = INT_MIN;
+
+    void solve(int i, int n, vector<int>& nums, long long mini,
+               long long maxi) {
+
+        if (i >= n)
+            return;
+
+        long long newMax =
+            max({(long long)nums[i], nums[i] * maxi, nums[i] * mini});
+        long long newMin =
+            min({(long long)nums[i], nums[i] * maxi, nums[i] * mini});
+
+        ans = max(ans, (int)newMax);
+
+        solve(i + 1, n, nums, newMin, newMax);
+    }
+
+    int maxProduct(vector<int>& nums) {
+
+        int n = nums.size();
+        ans = nums[0];
+
+        solve(1, n, nums, nums[0], nums[0]);
+
+        return ans;
+    }
+};
+
+
+//Tip: compare the minimum and maximum product at every step, and compare

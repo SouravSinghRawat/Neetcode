@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool solve(int i,int n, string& s, unordered_map<string,int>&mp, vector<int>&dp){
+        if(i==n){
+            return true;
+        }
+        if(dp[i]!=-1) return dp[i];
+
+        for(int start=i+1;start<=n;start++){
+            string res=s.substr(i,start-i);
+            if(mp.find(res)!=mp.end()){
+                if(solve(start,n,s,mp,dp))
+                return dp[i]=true;
+            }
+        }
+
+        return dp[i]=false;
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_map<string,int>mp;
+        for(auto it:wordDict){
+            mp[it]++;
+        }
+        int n=s.length();
+        vector<int>dp(n,-1);
+        return solve(0,n,s,mp,dp);
+    }
+};
+
+//Tip: Go through the string, and check for each substring, is it present in the dict or not, if present, then start from the next character, where you had just end the previous substring.
